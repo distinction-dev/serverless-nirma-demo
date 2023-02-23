@@ -1,8 +1,9 @@
 import { OpenAPIV3_1 } from "openapi-types";
 import { writeFileSync } from "fs";
 import * as path from "path";
-import { LeoNotificationsApiSecuritySchema, TAG_NAMES } from "./openapi.shared";
-
+import { TAG_NAMES } from "./openapi.shared";
+import { getAllProjectApiDefinition, getProjectApiDefinition, deleteProjectApiDefinition, addProjectApiDefinition, updateProjectApiDefinition } from "./src/functions/projects.conf"
+import { deleteTaskApiDefinition, getAllTaskApiDefinition, getTaskApiDefinition, postTaskApiDefinition } from "./src/functions/tasks.conf"
 const Tags: OpenAPIV3_1.TagObject[] = [
   {
     name: TAG_NAMES.NOTIFICATIONS,
@@ -18,20 +19,26 @@ const apiSchema: OpenAPIV3_1.Document = {
     },
   ],
   info: {
-    title: "Leo Notification Service",
+    title: "Nirma Serverless",
     version: "1.0.0",
-    description: "Rest Api for creating and getting user notifications",
+    description: "Rest API for creating and getting Project and Tasks",
   },
   tags: Tags,
   paths: {
-    "/{accountId}/notification/": {},
-    "/{accountId}/notification/{id}": {},
-  },
-  components: {
-    securitySchemes: {
-       Bearer: LeoNotificationsApiSecuritySchema,
+    "/projects":{...getAllProjectApiDefinition, ...addProjectApiDefinition, ...updateProjectApiDefinition},
+    "/projects/{id}":{
+      ...getProjectApiDefinition,
+      ...deleteProjectApiDefinition
     },
-  },
+    "/tasks":{
+      ...getAllTaskApiDefinition,
+      ...postTaskApiDefinition
+    },
+    "/tasks/{id}":{
+      ...getTaskApiDefinition,
+      ...deleteTaskApiDefinition
+    },
+  }
 };
 
 writeFileSync(
