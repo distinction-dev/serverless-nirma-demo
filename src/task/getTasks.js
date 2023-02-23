@@ -23,7 +23,7 @@ exports.handler = async (event) => {
       .query({
         TableName: process.env.TASKS_TABLE,
         ScanIndexForward: true,
-        FilterExpression: "#projectId = :projectId",
+        KeyConditionExpression: "#projectId = :projectId",
         ExpressionAttributeNames: {
           "#projectId": "projectId",
         },
