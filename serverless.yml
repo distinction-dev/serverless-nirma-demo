@@ -183,7 +183,7 @@ resources:
     Bucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:custom.bucketName}
+        BucketName: ${self:service}-${self:custom.myStage}-attachment-buckets
     ProjectsTable:
       Type: AWS::DynamoDB::Table
       Properties:
