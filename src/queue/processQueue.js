@@ -1,5 +1,3 @@
-const AWS = require("aws-sdk");
-
 /**
  * @param {import("aws-lambda").SQSEvent} event
  * @param {import("aws-lambda").Context} context
@@ -11,18 +9,19 @@ exports.handler = async (event, context) => {
       message: 'Go Serverless v1.0! Your function executed successfully!',
       input: event
     })
-  }
+  };
   try {
-    console.log('event: ', JSON.stringify(event))
+    console.log('event: ', JSON.stringify(event));
 
-		const body = JSON.parse(event.Records[0].body)
+    const body = JSON.parse(event.Records[0].body);
 
-    response.message = `Received body: ${JSON.stringify(body)}`
+    response.message = `Received body: ${JSON.stringify(body)}`;
 
-    console.log(response)
-  } catch (err) {
-    console.error(err)
-    response.message = err
+    console.log(response);
   }
-  return response
-}
+  catch (err) {
+    console.error(err);
+    response.message = err;
+  }
+  return response;
+};

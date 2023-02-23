@@ -1,4 +1,4 @@
-const AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /**
@@ -12,35 +12,36 @@ exports.handler = async (event) => {
     const dynamoResult = await dynamoDB
       .get({
         TableName: process.env.PROJECTS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
 
-    console.log("dynamoResult:", dynamoResult);
+    console.log('dynamoResult:', dynamoResult);
 
     const project = dynamoResult.Item;
-    console.log("project:", project);
+    console.log('project:', project);
 
     if (!project) {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: "Project not found!",
-        }),
+          message: 'Project not found!'
+        })
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify(project),
+      body: JSON.stringify(project)
     };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error);
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: error.message,
-      }),
+        message: error.message
+      })
     };
   }
 };

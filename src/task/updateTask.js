@@ -1,4 +1,4 @@
-const AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /**
@@ -14,20 +14,20 @@ exports.handler = async (event) => {
     const getResult = await dynamoDB
       .get({
         TableName: process.env.TASKS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("getResult:", getResult);
+    console.log('getResult:', getResult);
 
     const task = getResult.Item;
-    console.log("task:", task);
+    console.log('task:', task);
 
     if (!task) {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: "Task not found!",
-        }),
+          message: 'Task not found!'
+        })
       };
     }
 
@@ -38,35 +38,36 @@ exports.handler = async (event) => {
           ...task,
           ...body,
           id,
-          updatedAt: new Date().toISOString(),
-        },
+          updatedAt: new Date().toISOString()
+        }
       })
       .promise();
 
-    console.log("putResult:", putResult);
+    console.log('putResult:', putResult);
 
     const getUpdatedResult = await dynamoDB
       .get({
         TableName: process.env.TASKS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("getUpdatedResult:", getUpdatedResult);
+    console.log('getUpdatedResult:', getUpdatedResult);
 
     const updatedTask = getUpdatedResult.Item;
-    console.log("updatedTask:", updatedTask);
+    console.log('updatedTask:', updatedTask);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(updatedTask),
+      body: JSON.stringify(updatedTask)
     };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error);
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: error.message,
-      }),
+        message: error.message
+      })
     };
   }
 };

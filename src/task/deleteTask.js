@@ -1,4 +1,4 @@
-const AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /**
@@ -11,44 +11,45 @@ exports.handler = async (event) => {
     const { id } = event.pathParameters;
 
     const getResult = await dynamoDB
-      .delete({
+      .get({
         TableName: process.env.TASKS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("getResult:", getResult);
+    console.log('getResult:', getResult);
 
     const task = getResult.Item;
-    console.log("task:", task);
+    console.log('task:', task);
 
     if (!task) {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: "Task not found!",
-        }),
+          message: 'Task not found!'
+        })
       };
     }
 
     const deleteResult = await dynamoDB
       .delete({
         TableName: process.env.TASKS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("deleteResult:", deleteResult);
+    console.log('deleteResult:', deleteResult);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(task),
+      body: JSON.stringify(task)
     };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error);
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: error.message,
-      }),
+        message: error.message
+      })
     };
   }
 };

@@ -1,5 +1,6 @@
-const AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const sqs = new AWS.SQS({ region: process.env.AWS_REGION });
 
 /**
  * @param {import("aws-lambda").APIGatewayEvent} event
@@ -13,42 +14,54 @@ exports.handler = async (event) => {
     const getResult = await dynamoDB
       .get({
         TableName: process.env.PROJECTS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("getResult:", getResult);
+    console.log('getResult:', getResult);
 
     const project = getResult.Item;
-    console.log("project:", project);
+    console.log('project:', project);
 
     if (!project) {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: "Project not found!",
-        }),
+          message: 'Project not found!'
+        })
       };
     }
 
     const deleteResult = await dynamoDB
       .delete({
         TableName: process.env.PROJECTS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("deleteResult:", deleteResult);
+    console.log('deleteResult:', deleteResult);
+
+
+    const deleteCascadeParams = {
+      MessageBody: JSON.stringify({
+        projectId: id
+      }),
+      MessageGroupId: id,
+      QueueUrl: process.env.PROJECT_DELETE_CASCADE_QUEUE_URL
+    };
+    const response = await sqs.sendMessage(deleteCascadeParams).promise();
+    console.log('Response: ', response);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(project),
+      body: JSON.stringify(project)
     };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error);
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: error.message,
-      }),
+        message: error.message
+      })
     };
   }
 };
