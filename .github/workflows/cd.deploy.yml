@@ -33,7 +33,7 @@ jobs:
       - name: Package Functions
         run: npx serverless package
       - name: Deploy Functions - dev account
-        if: ${{ (env.GITHUB_REF_SLUG == 'preprod') || (env.GITHUB_REF_SLUG == 'uat') }}
+        if: ${{ (env.GITHUB_REF_SLUG == 'develop') || (env.GITHUB_REF_SLUG == 'uat') }}
         run: npx serverless deploy --package .serverless --stage preprod
       - name: Deploy Functions - prod account
         if: ${{ (env.GITHUB_REF_SLUG == 'main') }}
