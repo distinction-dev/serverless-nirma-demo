@@ -2,6 +2,7 @@ service: serverless-task-manager-demo
 
 custom:
   myStage: ${opt:stage, 'preprod'}
+  region: ap-south-1
   projectsTableName: projects-table-${self:custom.myStage}
   tasksTableName: tasks-table-${self:custom.myStage}
   esbuild:
@@ -15,13 +16,15 @@ provider:
   runtime: nodejs16.x
   versionFunctions: false
   stage: ${self:custom.myStage}
-  region: ap-south-1
+  region: ${self:custom.region}
   apiGateway: 
     binaryMediaTypes:
       -'*/*'
   environment:
     TASKS_TABLE: ${self:custom.tasksTableName}
     PROJECTS_TABLE: ${self:custom.projectsTableName}
+    AWS_REGION: ${self:custom.region}
+    QUEUE_URL: { Ref: TaskManagerQueue }
 
   # This section is used to configure permissions
   iamRoleStatements:
@@ -155,6 +158,18 @@ functions:
           method: delete
           cors:
             maxAge: 3600
+  processQueue:
+    handler: src/queue/processQueue.handler
+    description: FIFO queue processing
+    timeout: 900
+    memorySize: 512
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - TaskManagerQueue
+              - Arn
+          batchSize: 1
 
 resources:
   Resources:
