@@ -23,10 +23,14 @@ exports.handler = async (event) => {
       .query({
         TableName: process.env.TASKS_TABLE,
         ScanIndexForward: true,
-        KeyConditionExpression: "projectId = :projectId",
+        IndexName: 'task-project-index',
+        KeyConditionExpression: "#projectId = :p_Id",
         ExpressionAttributeValues: {
-          ":projectId": projectId,
+          ":p_Id": projectId,
         },
+        ExpressionAttributeNames: {
+          '#projectId': 'projectId',
+        }
       })
       .promise();
     console.log("dynamoResult:", dynamoResult);
