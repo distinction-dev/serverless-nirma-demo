@@ -10,17 +10,16 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@functions/*": ["src/functions/*"],
-      "@lib/*": ["src/lib/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.js"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
     ".webpack/**/*",
     "_warmup/**/*",
-    ".vscode/**/*"
+    ".vscode/**/*",
+    ".eslintrc.js"
   ],
   "ts-node": {
     "require": ["tsconfig-paths/register"]

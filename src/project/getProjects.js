@@ -1,0 +1,34 @@
+const AWS = require("aws-sdk");
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
+
+/**
+ * @param {import("aws-lambda").APIGatewayEvent} event
+ * @param {import("aws-lambda").Context} context
+ */
+exports.handler = async (event, context) => {
+  try {
+    console.log("Event:", event);
+    const dynamoResult = await dynamoDB
+      .scan({
+        TableName: "projects-table",
+      })
+      .promise();
+    console.log("dynamoResult:", dynamoResult);
+
+    const projects = dynamoResult.Items ?? [];
+    console.log("projects:", projects);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(projects),
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        message: error.message,
+      }),
+    };
+  }
+};

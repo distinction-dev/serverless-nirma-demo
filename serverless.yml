@@ -1,50 +1,187 @@
-service: typescript
+service: task-manager
 
 provider:
   name: aws
   runtime: nodejs16.x
+  versionFunctions: false
+  stage: prod
+  region: ap-south-1
 
-functions:
-  hello:
-    handler: src/functions/hello.handler
-    events:
-      - http:
-          cors: true
-          path: /hello
-          method: GET
+  # This section is used to configure permissions
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+        - ses:SendRawEmail
+      Resource:
+        - "*"
+    - Effect: Allow
+      Action:
+        - s3:*
+        - sqs:*
+        - sns:*
+        - kms:*
+      Resource: "*"
+    # This will add dynamoDB permissions for the
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - "*"
+  memorySize: 128
+  # Setting a timeout of 15 minutes on all lambdas in this stack
+  timeout: 900
 
 plugins:
   - serverless-esbuild
-  - serverless-prune-plugin
-
-custom:
-  prune:
-    automatic: true
-  esbuild:
-    bundle: true
-    minify: false
+  - serverless-offline
 
 package:
   individually: true
-  exclude:
-    - coverage/**
-    - scripts/**
-    - serverless.yml
-    - .vscode
-    - dist
-    - .eslintrc.js
-    - .eslintignore
-    - .nvmrc
-    - .prettierrc.json
-    - .env
-    - .envrc
-    - .tool-versions
-    - tsconfig.json
-    - .nyc_output/**
-    - .idea/**
-    - test/**
-    - package-lock.json
-    - yarn.lock
-    - .gitlab-ci.yml
-    - README.md
-    - serverless.yml.example
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    disableIncremental: true
+    concurrency: 1
+
+functions:
+  getProjects:
+    handler: src/api/project/getProjects.handler
+    timeout: 30
+    events:
+      - http:
+          path: /projects
+          method: get
+          cors:
+            maxAge: 3600
+  getProject:
+    handler: src/api/project/getProject.handler
+    timeout: 30
+    events:
+      - http:
+          path: /projects/{id}
+          method: get
+          cors:
+            maxAge: 3600
+  createProject:
+    handler: src/api/project/createProject.handler
+    timeout: 30
+    events:
+      - http:
+          path: /projects
+          method: post
+          cors:
+            maxAge: 3600
+  updateProject:
+    handler: src/api/project/updateProject.handler
+    timeout: 30
+    events:
+      - http:
+          path: /projects/{id}
+          method: patch
+          cors:
+            maxAge: 3600
+  deleteProject:
+    handler: src/api/project/deleteProject.handler
+    timeout: 30
+    events:
+      - http:
+          path: /projects/{id}
+          method: delete
+          cors:
+            maxAge: 3600
+  getTasks:
+    handler: src/api/task/getTasks.handler
+    timeout: 30
+    events:
+      - http:
+          path: /tasks
+          method: get
+          cors:
+            maxAge: 3600
+  getTask:
+    handler: src/api/task/getTask.handler
+    timeout: 30
+    events:
+      - http:
+          path: /tasks/{id}
+          method: get
+          cors:
+            maxAge: 3600
+  createTask:
+    handler: src/api/task/createTask.handler
+    timeout: 30
+    events:
+      - http:
+          path: /tasks
+          method: post
+          cors:
+            maxAge: 3600
+  updateTask:
+    handler: src/api/task/updateTask.handler
+    timeout: 30
+    events:
+      - http:
+          path: /tasks/{id}
+          method: patch
+          cors:
+            maxAge: 3600
+  deleteTask:
+    handler: src/api/task/deleteTask.handler
+    timeout: 30
+    events:
+      - http:
+          path: /tasks/{id}
+          method: delete
+          cors:
+            maxAge: 3600
+      - sqs:
+        arn:
+          Fn::GetAtt:
+            -TaskManagerQueue
+            -Arn
+          batchSize: 1
+
+resources:
+  Resources:
+    ProjectsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: projects-table
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    TasksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: tasks-table
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: projectId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: task-project-index
+            KeySchema:
+              - AttributeName: projectId
+                KeyType: HASH
+              - AttributeName: id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+    TaskManagerQueue:
+      Type: 'AWS::SQS::Queue'
+      Properties:
+      QueueName: sqs-queue-${opt:stage, self:provider.stage}-task-manager-queue.fifo
+      VisibilityTimeout: 400
+      FifoQueue: true
