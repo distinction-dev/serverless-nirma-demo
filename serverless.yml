@@ -118,33 +118,33 @@ functions:
           method: get
           cors:
             maxAge: 3600
-  getTask:
-    handler: src/task/getTask.handler
-    timeout: 30
-    events:
-      - http:
-          path: /tasks/{id}
-          method: get
-          cors:
-            maxAge: 3600
-  createTask:
-    handler: src/task/createTask.handler
-    timeout: 30
-    events:
-      - http:
-          path: /tasks
-          method: post
-          cors:
-            maxAge: 3600
-  updateTask:
-    handler: src/task/updateTask.handler
-    timeout: 30
-    events:
-      - http:
-          path: /tasks/{id}
-          method: patch
-          cors:
-            maxAge: 3600
+  # getTask:
+  #   handler: src/task/getTask.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         path: /tasks/{id}
+  #         method: get
+  #         cors:
+  #           maxAge: 3600
+  # createTask:
+  #   handler: src/task/createTask.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         path: /tasks
+  #         method: post
+  #         cors:
+  #           maxAge: 3600
+  # updateTask:
+  #   handler: src/task/updateTask.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         path: /tasks/{id}
+  #         method: patch
+  #         cors:
+  #           maxAge: 3600
   s3UploadValidate:
     handler: src/task/uploadToS3.handler
     timeout: 30
@@ -154,15 +154,15 @@ functions:
           method: post
           cors:
             maxAge: 3600
-  deleteTask:
-    handler: src/task/deleteTask.handler
-    timeout: 30
-    events:
-      - http:
-          path: /tasks/{id}
-          method: delete
-          cors:
-            maxAge: 3600
+  # deleteTask:
+  #   handler: src/task/deleteTask.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         path: /tasks/{id}
+  #         method: delete
+  #         cors:
+  #           maxAge: 3600
   pushToQueue:
     handler: src/queue/pushQueue.handler
     timeout: 30
