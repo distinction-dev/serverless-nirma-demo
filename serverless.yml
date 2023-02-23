@@ -157,6 +157,15 @@ functions:
           method: delete
           cors:
             maxAge: 3600
+  pushToQueue:
+    handler: src/queue/pushQueue.handler
+    timeout: 30
+    events:
+      - http:
+          path: /pushQueue
+          method: post
+          cors:
+            maxAge: 3600
   processQueue:
     handler: src/queue/processQueue.handler
     description: FIFO queue processing
