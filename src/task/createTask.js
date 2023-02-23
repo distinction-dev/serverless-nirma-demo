@@ -1,19 +1,12 @@
 const AWS = require("aws-sdk");
 const { uuid } = require("uuidv4");
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const { getSignedUrl } = new AWS.Signer();
-const options = {
-  region: "us-east-1",
-};
-const s3 = new AWS.S3(options);
-
-const { createBucketCommand } = s3;
 
 /**
  * @param {import("aws-lambda").APIGatewayEvent} event
  * @param {import("aws-lambda").Context} context
  */
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   try {
     console.log(event);
 

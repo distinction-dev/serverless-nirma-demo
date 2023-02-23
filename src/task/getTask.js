@@ -1,19 +1,11 @@
 const AWS = require("aws-sdk");
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-/*
-
-projectId
-id
-name
-attachments: []
-
-*/
 
 /**
  * @param {import("aws-lambda").APIGatewayEvent} event
  * @param {import("aws-lambda").Context} context
  */
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   try {
     const { id } = event.pathParameters;
     console.log(event);

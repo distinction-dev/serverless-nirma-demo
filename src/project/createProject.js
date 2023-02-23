@@ -6,7 +6,7 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
  * @param {import("aws-lambda").APIGatewayEvent} event
  * @param {import("aws-lambda").Context} context
  */
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   try {
     console.log(event);
 
