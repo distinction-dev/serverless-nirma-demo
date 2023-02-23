@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - develop
 
 jobs:
   Deploy:
@@ -22,6 +23,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+        env:
+          STAGE: ${{ env.GITHUB_REF_SLUG }}
+        
       - name: Install serverless dependency
         run: yarn install --frozen-lockfile
       - name: Package Functions
