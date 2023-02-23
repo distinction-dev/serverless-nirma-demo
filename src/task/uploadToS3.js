@@ -55,7 +55,7 @@ exports.handler = async (event, _context) => {
     console.log(fileName);
 
     // Upload file to S3 bucket
-    const bucket = "attachments-bucket";
+    const bucket = process.env.BUCKET_NAME;
     const bodyStr = formFile.data.toString("utf8").trim();
     const params = {
       Bucket: bucket,
@@ -68,7 +68,7 @@ exports.handler = async (event, _context) => {
 
     const putResult = await dynamoDB
       .put({
-        TableName: "process.env.TASKS_TABLE",
+        TableName: process.env.TASKS_TABLE,
         Item: {
           ...task,
           id: taskId,

@@ -5,6 +5,7 @@ custom:
   region: ap-south-1
   projectsTableName: projects-table-${self:custom.myStage}
   tasksTableName: tasks-table-${self:custom.myStage}
+  bucketName: ${self:service}-${self:custom.myStage}-attachment-buckets
   esbuild:
     bundle: true
     minify: false
@@ -24,6 +25,7 @@ provider:
     TASKS_TABLE: ${self:custom.tasksTableName}
     PROJECTS_TABLE: ${self:custom.projectsTableName}
     QUEUE_URL: { Ref: TaskManagerQueue }
+    BUCKET_NAME: ${self:custom.bucketName}
 
   # This section is used to configure permissions
   iamRoleStatements:
@@ -40,7 +42,6 @@ provider:
         - sns:*
         - kms:*
       Resource: "*"
-    # This will add dynamoDB permissions for the
     - Effect: Allow
       Action:
         - dynamodb:*
@@ -184,7 +185,7 @@ resources:
     Bucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:service}-${self:custom.myStage}-attachment-buckets
+        BucketName: ${self:custom.bucketName}
     ProjectsTable:
       Type: AWS::DynamoDB::Table
       Properties:
