@@ -223,3 +223,4 @@ resources:
         QueueName: ${self:service}-${self:custom.myStage}-task-manager-queue.fifo
         VisibilityTimeout: 1800
         FifoQueue: true
+        ContentBasedDeduplication: True
