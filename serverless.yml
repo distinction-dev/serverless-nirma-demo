@@ -213,5 +213,5 @@ resources:
       Type: 'AWS::SQS::Queue'
       Properties:
         QueueName: ${self:service}-${self:custom.myStage}-task-manager-queue.fifo
-        VisibilityTimeout: 400
+        VisibilityTimeout: 1800
         FifoQueue: true
