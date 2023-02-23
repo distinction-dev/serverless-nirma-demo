@@ -9,8 +9,9 @@ const sqs = new AWS.SQS({ region: process.env.AWS_REGION })
 exports.handler = async (event) => {
   try {
     console.log("Event:", event);
+    const body = JSON.parse(event.body)
 
-    if (!event.body.payload) {
+    if (!body.payload) {
       return {
           statusCode: 400,
           body: JSON.stringify({
@@ -20,7 +21,7 @@ exports.handler = async (event) => {
     }
 
     const params = {
-      MessageBody: JSON.stringify(event.body.payload),
+      MessageBody: JSON.stringify(body.payload),
       MessageGroupId: event.body.groupId ?? 'StandardGroup',
       QueueUrl: process.env.QUEUE_URL
     }
