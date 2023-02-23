@@ -2,8 +2,8 @@ service: serverless-task-manager-demo
 
 custom:
   myStage: ${opt:stage, 'preprod'}
-  projectsTableName: process.env.PROJECTS_TABLE-${self:custom.myStage}
-  tasksTableName: process.env.TASKS_TABLE-${self:custom.myStage}
+  projectsTableName: projects-table-${self:custom.myStage}
+  tasksTableName: tasks-table-${self:custom.myStage}
   esbuild:
     bundle: true
     minify: false

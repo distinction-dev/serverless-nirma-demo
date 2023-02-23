@@ -12,6 +12,15 @@ exports.handler = async (event) => {
 
     const body = JSON.parse(event.body);
 
+    if (!body.projectId) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: error.message,
+        }),
+      };
+    }
+
     const id = uuid();
 
     const putResult = await dynamoDB
