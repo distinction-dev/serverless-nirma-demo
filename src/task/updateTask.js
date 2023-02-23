@@ -38,7 +38,7 @@ exports.handler = async (event) => {
           ...task,
           ...body,
           id,
-          updatedAt: new Date(),
+          updatedAt: new Date().toISOString(),
         },
       })
       .promise();
