@@ -1,5 +1,5 @@
-const AWS = require("aws-sdk");
-const { uuid } = require("uuidv4");
+const AWS = require('aws-sdk');
+const { uuid } = require('uuidv4');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /**
@@ -16,7 +16,7 @@ exports.handler = async (event) => {
     console.log({
       ...body,
       id,
-      status: "Not Started",
+      status: 'Not Started'
     });
 
     const putResult = await dynamoDB
@@ -25,36 +25,37 @@ exports.handler = async (event) => {
         Item: {
           ...body,
           id,
-          status: "Not Started",
+          status: 'Not Started',
           createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
+          updatedAt: new Date().toISOString()
+        }
       })
       .promise();
-    console.log("putResult:", putResult);
+    console.log('putResult:', putResult);
 
     const getResult = await dynamoDB
       .get({
         TableName: process.env.PROJECTS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("getResult:", getResult);
+    console.log('getResult:', getResult);
 
     const project = getResult.Item;
-    console.log("project:", project);
+    console.log('project:', project);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(project),
+      body: JSON.stringify(project)
     };
-  } catch (error) {
+  }
+  catch (error) {
     console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: error.message,
-      }),
+        message: error.message
+      })
     };
   }
 };

@@ -1,5 +1,5 @@
-const AWS = require("aws-sdk");
-const { uuid } = require("uuidv4");
+const AWS = require('aws-sdk');
+const { uuid } = require('uuidv4');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /**
@@ -16,8 +16,8 @@ exports.handler = async (event) => {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: error.message,
-        }),
+          message: 'Invalid request: it must have projectId'
+        })
       };
     }
 
@@ -29,35 +29,36 @@ exports.handler = async (event) => {
         Item: {
           ...body,
           id,
-          status: "Not Started",
+          status: 'Not Started',
           createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
+          updatedAt: new Date().toISOString()
+        }
       })
       .promise();
-    console.log("putResult:", putResult);
+    console.log('putResult:', putResult);
 
     const getResult = await dynamoDB
       .get({
         TableName: process.env.TASKS_TABLE,
-        Key: { id },
+        Key: { id }
       })
       .promise();
-    console.log("getResult:", getResult);
+    console.log('getResult:', getResult);
 
     const task = getResult.Item;
-    console.log("task:", task);
+    console.log('task:', task);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(task),
+      body: JSON.stringify(task)
     };
-  } catch (error) {
+  }
+  catch (error) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: error.message,
-      }),
+        message: error.message
+      })
     };
   }
 };

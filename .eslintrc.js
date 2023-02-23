@@ -1,31 +1,51 @@
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  root: true,
   env: {
     node: true,
+    mocha: true
   },
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
-    'import/resolver': {
-      typescript: {},
-    },
-  },
-  parserOptions: {
-    project: './tsconfig.json',
-    tsconfigRootDir: './',
-    sourceType: 'module',
-    ecmaVersion: 2019,
+  extends: [
+    'eslint:recommended',
+    'standard'
+  ],
+  globals: {
+    msCrypto: true
   },
   rules: {
-    '@typescript-eslint/no-explicit-any': 'off',
-    'max-len': [
+    'no-var': ['error'],
+    indent: [
       'error',
+      2,
       {
-        code: 80,
-      },
+        SwitchCase: 1
+      }
     ],
-  },
+    'no-tabs': 0,
+    semi: [
+      2,
+      'always'
+    ],
+    quotes: [
+      2,
+      'single'
+    ],
+    'space-before-function-paren': [
+      2
+    ],
+    'no-trailing-spaces': [
+      'error'
+    ],
+    'no-multi-spaces': [
+      'error'
+    ],
+    'no-multiple-empty-lines': ['error', { max: 2 }],
+    'brace-style': [
+      'error',
+      'stroustrup'
+    ],
+    'object-shorthand': 'error',
+    'block-scoped-var': ['error'],
+    'guard-for-in': ['error'],
+    'require-await': ['warn']
+  }
 };
