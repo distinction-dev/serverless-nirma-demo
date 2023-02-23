@@ -13,7 +13,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-      AWS_REGION: us-east-1
+      AWS_REGION: ap-south-1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -33,4 +33,8 @@ jobs:
       - name: Package Functions
         run: npx serverless package
       - name: Deploy Functions - dev account
-        run: npx serverless deploy --package .serverless
+        if: ${{ (env.GITHUB_REF_SLUG == 'preprod') || (env.GITHUB_REF_SLUG == 'uat') }}
+        run: npx serverless deploy --package .serverless --stage preprod
+      - name: Deploy Functions - prod account
+        if: ${{ (env.GITHUB_REF_SLUG == 'main') }}
+        run: npx serverless deploy --package .serverless --stage prod

@@ -1,10 +1,13 @@
-service: task-manager
+service: serverless-task-manager-demo
+
+custom:
+  myStage: ${opt:stage, 'preprod'}
 
 provider:
   name: aws
   runtime: nodejs16.x
   versionFunctions: false
-  stage: prod
+  stage: ${self:custom.myStage}
   region: ap-south-1
   apiGateway: 
     binaryMediaTypes:
@@ -155,7 +158,7 @@ resources:
     Bucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: attachments-bucket
+        BucketName: ${self:service}-${self:custom.myStage}-attachment-buckets
     ProjectsTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -170,7 +173,7 @@ resources:
     TasksTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: tasks-table
+        TableName: tasks-table-${self:custom.myStage}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
@@ -192,6 +195,6 @@ resources:
     TaskManagerQueue:
       Type: 'AWS::SQS::Queue'
       Properties:
-        QueueName: sqs-queue-${opt:stage, self:provider.stage}-task-manager-queue.fifo
+        QueueName: ${self:service}-${self:custom.myStage}-task-manager-queue.fifo
         VisibilityTimeout: 400
         FifoQueue: true
