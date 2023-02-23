@@ -2,6 +2,11 @@ service: serverless-task-manager-demo
 
 custom:
   myStage: ${opt:stage, 'preprod'}
+  esbuild:
+    bundle: true
+    minify: false
+    disableIncremental: true
+    concurrency: 1
 
 provider:
   name: aws
@@ -44,13 +49,6 @@ plugins:
 
 package:
   individually: true
-
-custom:
-  esbuild:
-    bundle: true
-    minify: false
-    disableIncremental: true
-    concurrency: 1
 
 functions:
   getProjects:
