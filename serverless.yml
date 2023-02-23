@@ -35,16 +35,23 @@ provider:
         - ses:SendRawEmail
       Resource:
         - "*"
+    # Fine grained Access example
     - Effect: Allow
       Action:
-        - s3:*
-        - sqs:*
-      Resource: "*"
+        - s3:GetObject
+        - s3:PutObject
+        - s3:DeleteObject
+      Resource: 
+        - arn:aws:s3:::${self:custom.bucketName}/*
     - Effect: Allow
       Action:
         - dynamodb:*
       Resource:
         - "*"
+    - Effect: Allow
+      Action: 
+        - sqs:*
+      Resource: "*"
   memorySize: 128
   # Setting a timeout of 15 minutes on all lambdas in this stack
   timeout: 900

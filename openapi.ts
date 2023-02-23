@@ -15,7 +15,7 @@ const apiSchema: OpenAPIV3_1.Document = {
   openapi: "3.1.0",
   servers: [
     {
-      url: "https://8dix1c1bih.execute-api.ap-south-1.amazonaws.com/preprod",
+      url: "https://fsms7kbkw9.execute-api.ap-south-1.amazonaws.com/preprod",
     },
   ],
   info: {
