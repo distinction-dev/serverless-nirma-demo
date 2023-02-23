@@ -1,0 +1,50 @@
+service: typescript
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+
+functions:
+  hello:
+    handler: src/functions/hello.handler
+    events:
+      - http:
+          cors: true
+          path: /hello
+          method: GET
+
+plugins:
+  - serverless-esbuild
+  - serverless-prune-plugin
+
+custom:
+  prune:
+    automatic: true
+  esbuild:
+    bundle: true
+    minify: false
+
+package:
+  individually: true
+  exclude:
+    - coverage/**
+    - scripts/**
+    - serverless.yml
+    - .vscode
+    - dist
+    - .eslintrc.js
+    - .eslintignore
+    - .nvmrc
+    - .prettierrc.json
+    - .env
+    - .envrc
+    - .tool-versions
+    - tsconfig.json
+    - .nyc_output/**
+    - .idea/**
+    - test/**
+    - package-lock.json
+    - yarn.lock
+    - .gitlab-ci.yml
+    - README.md
+    - serverless.yml.example
