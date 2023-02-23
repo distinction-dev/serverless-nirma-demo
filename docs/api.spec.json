@@ -6,9 +6,9 @@
     }
   ],
   "info": {
-    "title": "Leo Notification Service",
+    "title": "Nirma Serverless",
     "version": "1.0.0",
-    "description": "Rest Api for creating and getting user notifications"
+    "description": "Rest API for creating and getting Project and Tasks"
   },
   "tags": [
     {
@@ -17,16 +17,834 @@
     }
   ],
   "paths": {
-    "/{accountId}/notification/": {},
-    "/{accountId}/notification/{id}": {}
-  },
-  "components": {
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "Bearer",
-        "bearerFormat": "JWT",
-        "description": "The Frontegg token, this will help resolve to the User Object"
+    "/projects": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "List Projects",
+        "responses": {
+          "200": {
+            "description": "Get All Projects Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique Id of Project"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the Project"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "description of project"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "dateTtime",
+                        "description": "Creation date of the project"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "dateTtime",
+                        "description": "Last updation date of the project"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "1",
+                      "name": "Jap Purohit",
+                      "description": "update",
+                      "createdAt": "2011-10-05T14:48:00.000Z",
+                      "updatedAt": "2011-10-05T14:48:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ProjectID, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Invalid ProjectID"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "Add Project",
+        "responses": {
+          "200": {
+            "description": "Added Project successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the project"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "name": "Jap Purohit",
+                    "description": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some error occured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Some error occured"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the Project"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "description of project"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "Update Project",
+        "responses": {
+          "200": {
+            "description": "Updated Project successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the project"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "name": "Jap Purohit",
+                    "description": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some error occured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Some error occured"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Project ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the Project"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "description of project"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "Get Project",
+        "responses": {
+          "200": {
+            "description": "Get Project successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the project"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "name": "Jap Purohit",
+                    "description": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ProjectID, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Invalid ProjectID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The projectID to fetch the details"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "operationId": "Delete Project",
+        "responses": {
+          "200": {
+            "description": "Deleted Task successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the project"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "name": "Jap Purohit",
+                    "description": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ProjectID, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Invalid ProjectID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The projectID to delete"
+          }
+        ]
+      }
+    },
+    "/tasks": {
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "operationId": "Get All Tasks",
+        "responses": {
+          "200": {
+            "description": "Get All Tasks Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique Id of Task"
+                      },
+                      "projectId": {
+                        "type": "string",
+                        "description": "Unique Id of Project"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the Project"
+                      },
+                      "content": {
+                        "type": "string",
+                        "description": "description of project"
+                      },
+                      "attachment": {
+                        "type": "string",
+                        "description": "Name of the File"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Checks task status if started or not"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "dateTtime",
+                        "description": "Creation date of the task"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "dateTtime",
+                        "description": "Last updation date of the project"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "1",
+                      "projectId": "1",
+                      "name": "Jap Purohit",
+                      "content": "update",
+                      "status": "Not started",
+                      "attachment": "update",
+                      "createdAt": "2011-10-05T14:48:00.000Z",
+                      "updatedAt": "2011-10-05T14:48:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid TaskId, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Some error occured"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Task"
+        ],
+        "operationId": "Post Task",
+        "responses": {
+          "200": {
+            "description": "Created Task Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Task"
+                    },
+                    "projectId": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "attachment": {
+                      "type": "string",
+                      "description": "Name of the File"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Checks task status if started or not"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the task"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "projectId": "1",
+                    "name": "Jap Purohit",
+                    "content": "update",
+                    "status": "Not started",
+                    "attachment": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid TaskId, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Invalid TaskID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "description": "Unique Id of Project"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the Project"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "description of project"
+                  },
+                  "attachment": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Name of the File"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              },
+              "encoding": {
+                "attachment": {
+                  "contentType": "image/png, image/jpeg"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "operationId": "Get Task",
+        "responses": {
+          "200": {
+            "description": "Get task successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Task"
+                    },
+                    "projectId": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "attachment": {
+                      "type": "string",
+                      "description": "Name of the File"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Checks task status if started or not"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the task"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "projectId": "1",
+                    "name": "Jap Purohit",
+                    "content": "update",
+                    "status": "Not started",
+                    "attachment": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid TaskId, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Invalid TaskID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The task to fetch the details"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Task"
+        ],
+        "operationId": "Delete Task",
+        "responses": {
+          "200": {
+            "description": "Deleted Task successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Task"
+                    },
+                    "projectId": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "attachment": {
+                      "type": "string",
+                      "description": "Name of the File"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Checks task status if started or not"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the task"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "projectId": "1",
+                    "name": "Jap Purohit",
+                    "content": "update",
+                    "status": "Not started",
+                    "attachment": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid TaskId, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Invalid TaskID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The taskID to delete"
+          }
+        ]
       }
     }
   }

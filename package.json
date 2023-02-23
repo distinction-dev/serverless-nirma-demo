@@ -14,6 +14,7 @@
     "node": ">=14.15.0"
   },
   "dependencies": {
+    "@distinction-dev/lambda-authorizer-utils": "^1.12.1",
     "@middy/core": "^3.4.0",
     "@middy/http-json-body-parser": "^3.4.0",
     "openapi-types": "^12.1.0",
@@ -23,7 +24,8 @@
     "serverless-prune-plugin": "^2.0.1",
     "serverless-step-functions": "^3.11.1",
     "uuid": "^9.0.0",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "serverless-schema": "^1.16.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.71",
