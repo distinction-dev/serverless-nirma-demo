@@ -1,0 +1,33 @@
+{
+  "openapi": "3.1.0",
+  "servers": [
+    {
+      "url": "http://y9yle5ib40.execute-api.us-west-2.amazonaws.com/dev"
+    }
+  ],
+  "info": {
+    "title": "Leo Notification Service",
+    "version": "1.0.0",
+    "description": "Rest Api for creating and getting user notifications"
+  },
+  "tags": [
+    {
+      "name": "Notifications",
+      "description": "Collection of endpoints containing notification"
+    }
+  ],
+  "paths": {
+    "/{accountId}/notification/": {},
+    "/{accountId}/notification/{id}": {}
+  },
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT",
+        "description": "The Frontegg token, this will help resolve to the User Object"
+      }
+    }
+  }
+}

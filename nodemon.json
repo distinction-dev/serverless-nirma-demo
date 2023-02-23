@@ -1,0 +1,6 @@
+{
+    "$schema": "https://json.schemastore.org/nodemon.json",
+    "watch": ["src/**/*.ts", "openapi.ts", "openapi.shared.ts"],
+    "exec": "yarn gen:spec",
+    "ext": "ts"
+  }
