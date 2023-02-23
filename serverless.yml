@@ -6,6 +6,9 @@ provider:
   versionFunctions: false
   stage: prod
   region: ap-south-1
+  apiGateway: 
+    binaryMediaTypes:
+      -'*/*'
 
   # This section is used to configure permissions
   iamRoleStatements:
@@ -48,7 +51,7 @@ custom:
 
 functions:
   getProjects:
-    handler: src/api/project/getProjects.handler
+    handler: src/project/getProjects.handler
     timeout: 30
     events:
       - http:
@@ -57,7 +60,7 @@ functions:
           cors:
             maxAge: 3600
   getProject:
-    handler: src/api/project/getProject.handler
+    handler: src/project/getProject.handler
     timeout: 30
     events:
       - http:
@@ -66,7 +69,7 @@ functions:
           cors:
             maxAge: 3600
   createProject:
-    handler: src/api/project/createProject.handler
+    handler: src/project/createProject.handler
     timeout: 30
     events:
       - http:
@@ -75,7 +78,7 @@ functions:
           cors:
             maxAge: 3600
   updateProject:
-    handler: src/api/project/updateProject.handler
+    handler: src/project/updateProject.handler
     timeout: 30
     events:
       - http:
@@ -84,7 +87,7 @@ functions:
           cors:
             maxAge: 3600
   deleteProject:
-    handler: src/api/project/deleteProject.handler
+    handler: src/project/deleteProject.handler
     timeout: 30
     events:
       - http:
@@ -93,7 +96,7 @@ functions:
           cors:
             maxAge: 3600
   getTasks:
-    handler: src/api/task/getTasks.handler
+    handler: src/task/getTasks.handler
     timeout: 30
     events:
       - http:
@@ -102,7 +105,7 @@ functions:
           cors:
             maxAge: 3600
   getTask:
-    handler: src/api/task/getTask.handler
+    handler: src/task/getTask.handler
     timeout: 30
     events:
       - http:
@@ -111,7 +114,7 @@ functions:
           cors:
             maxAge: 3600
   createTask:
-    handler: src/api/task/createTask.handler
+    handler: src/task/createTask.handler
     timeout: 30
     events:
       - http:
@@ -120,7 +123,7 @@ functions:
           cors:
             maxAge: 3600
   updateTask:
-    handler: src/api/task/updateTask.handler
+    handler: src/task/updateTask.handler
     timeout: 30
     events:
       - http:
@@ -128,8 +131,17 @@ functions:
           method: patch
           cors:
             maxAge: 3600
+  s3UploadValidate:
+    handler: src/task/uploadToS3.handler
+    timeout: 30
+    events:
+      - http:
+          path: /uploadToS3/{id}
+          method: post
+          cors:
+            maxAge: 3600
   deleteTask:
-    handler: src/api/task/deleteTask.handler
+    handler: src/task/deleteTask.handler
     timeout: 30
     events:
       - http:
@@ -137,15 +149,13 @@ functions:
           method: delete
           cors:
             maxAge: 3600
-      - sqs:
-        arn:
-          Fn::GetAtt:
-            -TaskManagerQueue
-            -Arn
-          batchSize: 1
 
 resources:
   Resources:
+    Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: attachments-bucket
     ProjectsTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -182,6 +192,6 @@ resources:
     TaskManagerQueue:
       Type: 'AWS::SQS::Queue'
       Properties:
-      QueueName: sqs-queue-${opt:stage, self:provider.stage}-task-manager-queue.fifo
-      VisibilityTimeout: 400
-      FifoQueue: true
+        QueueName: sqs-queue-${opt:stage, self:provider.stage}-task-manager-queue.fifo
+        VisibilityTimeout: 400
+        FifoQueue: true

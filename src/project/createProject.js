@@ -26,6 +26,8 @@ exports.handler = async (event) => {
           ...body,
           id,
           status: "Not Started",
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       })
       .promise();

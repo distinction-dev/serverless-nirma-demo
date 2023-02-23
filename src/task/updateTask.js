@@ -38,6 +38,7 @@ exports.handler = async (event) => {
           ...task,
           ...body,
           id,
+          updatedAt: new Date(),
         },
       })
       .promise();
@@ -60,6 +61,7 @@ exports.handler = async (event) => {
       body: JSON.stringify(updatedTask),
     };
   } catch (error) {
+    console.error(error);
     return {
       statusCode: 500,
       body: JSON.stringify({

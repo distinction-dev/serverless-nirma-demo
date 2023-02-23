@@ -38,6 +38,7 @@ exports.handler = async (event) => {
           ...project,
           ...body,
           id,
+          updatedAt: new Date(),
         },
       })
       .promise();
