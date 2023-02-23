@@ -21,7 +21,7 @@ exports.handler = async (event) => {
     console.log("Event:", event);
     const dynamoResult = await dynamoDB
       .query({
-        TableName: "tasks-table",
+        TableName: "process.env.TASKS_TABLE",
         ScanIndexForward: true,
         FilterExpression: "#projectId = :projectId",
         ExpressionAttributeNames: {

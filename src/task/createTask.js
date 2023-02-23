@@ -16,13 +16,13 @@ exports.handler = async (event) => {
 
     const putResult = await dynamoDB
       .put({
-        TableName: "tasks-table",
+        TableName: "process.env.TASKS_TABLE",
         Item: {
           ...body,
           id,
           status: "Not Started",
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         },
       })
       .promise();
@@ -30,7 +30,7 @@ exports.handler = async (event) => {
 
     const getResult = await dynamoDB
       .get({
-        TableName: "tasks-table",
+        TableName: "process.env.TASKS_TABLE",
         Key: { id },
       })
       .promise();

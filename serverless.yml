@@ -2,6 +2,8 @@ service: serverless-task-manager-demo
 
 custom:
   myStage: ${opt:stage, 'preprod'}
+  projectsTableName: process.env.PROJECTS_TABLE-${self:custom.myStage}
+  tasksTableName: process.env.TASKS_TABLE-${self:custom.myStage}
   esbuild:
     bundle: true
     minify: false
@@ -17,6 +19,9 @@ provider:
   apiGateway: 
     binaryMediaTypes:
       -'*/*'
+  environment:
+    TASKS_TABLE: ${self:custom.tasksTableName}
+    PROJECTS_TABLE: ${self:custom.projectsTableName}
 
   # This section is used to configure permissions
   iamRoleStatements:
@@ -160,7 +165,7 @@ resources:
     ProjectsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: projects-table
+        TableName: ${self:custom.projectsTableName}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
@@ -171,7 +176,7 @@ resources:
     TasksTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: tasks-table-${self:custom.myStage}
+        TableName: ${self:custom.tasksTableName}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
