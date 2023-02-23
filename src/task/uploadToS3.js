@@ -13,7 +13,7 @@ exports.handler = async (event, _context) => {
 
     const getResult = await dynamoDB
       .get({
-        TableName: "process.env.TASKS_TABLE",
+        TableName: process.env.TASKS_TABLE,
         Key: { id: taskId },
       })
       .promise();

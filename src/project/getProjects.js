@@ -10,7 +10,7 @@ exports.handler = async (event) => {
     console.log("Event:", event);
     const dynamoResult = await dynamoDB
       .scan({
-        TableName: "process.env.PROJECTS_TABLE",
+        TableName: process.env.PROJECTS_TABLE,
       })
       .promise();
     console.log("dynamoResult:", dynamoResult);

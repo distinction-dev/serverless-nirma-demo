@@ -12,7 +12,7 @@ exports.handler = async (event) => {
 
     const getResult = await dynamoDB
       .get({
-        TableName: "process.env.PROJECTS_TABLE",
+        TableName: process.env.PROJECTS_TABLE,
         Key: { id },
       })
       .promise();
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
 
     const deleteResult = await dynamoDB
       .delete({
-        TableName: "process.env.PROJECTS_TABLE",
+        TableName: process.env.PROJECTS_TABLE,
         Key: { id },
       })
       .promise();

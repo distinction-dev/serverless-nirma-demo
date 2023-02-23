@@ -21,7 +21,7 @@ exports.handler = async (event) => {
 
     const putResult = await dynamoDB
       .put({
-        TableName: "process.env.PROJECTS_TABLE",
+        TableName: process.env.PROJECTS_TABLE,
         Item: {
           ...body,
           id,
@@ -35,7 +35,7 @@ exports.handler = async (event) => {
 
     const getResult = await dynamoDB
       .get({
-        TableName: "process.env.PROJECTS_TABLE",
+        TableName: process.env.PROJECTS_TABLE,
         Key: { id },
       })
       .promise();
