@@ -22,7 +22,7 @@ exports.handler = async (event) => {
 
     const params = {
       MessageBody: JSON.stringify(body.payload),
-      MessageGroupId: event.body.groupId ?? 'StandardGroup',
+      MessageGroupId: body.groupId ?? 'StandardGroup',
       QueueUrl: process.env.QUEUE_URL
     }
     const response = await sqs.sendMessage(params).promise()

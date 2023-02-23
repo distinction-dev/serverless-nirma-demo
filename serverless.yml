@@ -180,7 +180,7 @@ functions:
 
 resources:
   Resources:
-    Bucket:
+    FileAttachmentBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:service}-${self:custom.myStage}-attachment-buckets
