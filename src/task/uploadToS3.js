@@ -56,6 +56,8 @@ exports.handler = async (event, _context) => {
 
     // Upload file to S3 bucket
     const bucket = process.env.BUCKET_NAME;
+    console.log("Bucket: ", bucket);
+    
     const bodyStr = formFile.data.toString("utf8").trim();
     const params = {
       Bucket: bucket,
