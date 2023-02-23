@@ -88,11 +88,45 @@ export const deleteTaskApiDefinition: OpenAPIV3_1.PathItemObject = {
 
 
 
-/// post function of 
+/// post function of create
 export const postTaskApiDefinition: OpenAPIV3_1.PathItemObject = {
   post: {
     tags: [TAG_NAMES.TASK],
     operationId: "Post Task",
+    responses: {
+      200: getTaskSuccessResponseTask("Created Task Successfully",dummyTaskObj ),
+      400: getErrorResponseTask("Invalid TaskId, Error Generated", { "message" : "Invalid TaskID"}),
+    },
+    // @ts-ignore
+    requestBody: {
+      content: {
+        "multipart/form-data":{
+          // @ts-ignore
+          schema: {
+            type:"object",
+            properties:
+              UpdateProjectsParameters
+            ,
+            required:["file"]
+          },
+          encoding:{
+            attachment: {
+              contentType: "image/png, image/jpeg"
+            }
+          }
+        }
+      }
+    }
+  },
+};
+  
+
+
+/// post function of Update
+export const putTaskApiDefinition: OpenAPIV3_1.PathItemObject = {
+  put: {
+    tags: [TAG_NAMES.TASK],
+    operationId: "Update Task",
     responses: {
       200: getTaskSuccessResponseTask("Created Task Successfully",dummyTaskObj ),
       400: getErrorResponseTask("Invalid TaskId, Error Generated", { "message" : "Invalid TaskID"}),

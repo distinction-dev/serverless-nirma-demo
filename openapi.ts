@@ -3,7 +3,7 @@ import { writeFileSync } from "fs";
 import * as path from "path";
 import { TAG_NAMES } from "./openapi.shared";
 import { getAllProjectApiDefinition, getProjectApiDefinition, deleteProjectApiDefinition, addProjectApiDefinition, updateProjectApiDefinition } from "./src/functions/projects.conf"
-import { deleteTaskApiDefinition, getAllTaskApiDefinition, getTaskApiDefinition, postTaskApiDefinition } from "./src/functions/tasks.conf"
+import { deleteTaskApiDefinition, getAllTaskApiDefinition, getTaskApiDefinition, postTaskApiDefinition, putTaskApiDefinition } from "./src/functions/tasks.conf"
 const Tags: OpenAPIV3_1.TagObject[] = [
   {
     name: TAG_NAMES.NOTIFICATIONS,
@@ -32,7 +32,8 @@ const apiSchema: OpenAPIV3_1.Document = {
     },
     "/tasks":{
       ...getAllTaskApiDefinition,
-      ...postTaskApiDefinition
+      ...postTaskApiDefinition,
+      ...putTaskApiDefinition
     },
     "/tasks/{id}":{
       ...getTaskApiDefinition,

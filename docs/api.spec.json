@@ -651,6 +651,127 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Task"
+        ],
+        "operationId": "Update Task",
+        "responses": {
+          "200": {
+            "description": "Created Task Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique Id of Task"
+                    },
+                    "projectId": {
+                      "type": "string",
+                      "description": "Unique Id of Project"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the Project"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "description of project"
+                    },
+                    "attachment": {
+                      "type": "string",
+                      "description": "Name of the File"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Checks task status if started or not"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Creation date of the task"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "dateTtime",
+                      "description": "Last updation date of the project"
+                    }
+                  },
+                  "example": {
+                    "id": "1",
+                    "projectId": "1",
+                    "name": "Jap Purohit",
+                    "content": "update",
+                    "status": "Not started",
+                    "attachment": "update",
+                    "createdAt": "2011-10-05T14:48:00.000Z",
+                    "updatedAt": "2011-10-05T14:48:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid TaskId, Error Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "example": {
+                    "message": "Invalid TaskID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "description": "Unique Id of Project"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the Project"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "description of project"
+                  },
+                  "attachment": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Name of the File"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              },
+              "encoding": {
+                "attachment": {
+                  "contentType": "image/png, image/jpeg"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/tasks/{id}": {
