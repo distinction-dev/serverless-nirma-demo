@@ -247,7 +247,7 @@ resources:
     ProjectDeleteCascadeQueue:
       Type: 'AWS::SQS::Queue'
       Properties:
-        QueueName: ${self:service}-${self:custom.myStage}-project-delete-cascade-queue
+        QueueName: ${self:service}-${self:custom.myStage}-project-delete-cascade-queue.fifo
         VisibilityTimeout: 1800
         FifoQueue: true
         ContentBasedDeduplication: True
