@@ -40,7 +40,7 @@ jobs:
           npx sonar-scanner \
             -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
             -Dsonar.projectName="${SONAR_PROJECT_NAME}" \
-            -Dsonar.sources=. \
+            -Dsonar.sources=./src \
             -Dsonar.login="${SONAR_USER}" \
             -Dsonar.password="${SONAR_PASSWORD}" \
             -Dsonar.host.url="${SONAR_URL}"
