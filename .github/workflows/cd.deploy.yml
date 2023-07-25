@@ -13,6 +13,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       AWS_REGION: us-east-1
+      SONAR_URL: http://54.146.1.15:9000/
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,3 +29,18 @@ jobs:
         run: npx serverless package
       - name: Deploy Functions - dev account
         run: npx serverless deploy --package .serverless
+      - name: SonarQube Scanner
+        env:
+          SONAR_SCANNER_OPTS: -Xmx512m
+          SONAR_USER: admin
+          SONAR_PASSWORD: d-dev
+          SONAR_PROJECT_KEY: ${{ github.repository_owner }}_${{ github.repository_name }}
+          SONAR_PROJECT_NAME: ${{ github.repository_name }}
+        run: |
+          npx sonar-scanner \
+            -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
+            -Dsonar.projectName="${SONAR_PROJECT_NAME}" \
+            -Dsonar.sources=. \
+            -Dsonar.login="${SONAR_USER}" \
+            -Dsonar.password="${SONAR_PASSWORD}" \
+            -Dsonar.host.url="${SONAR_URL}"

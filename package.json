@@ -22,10 +22,11 @@
     "parse-multipart-data": "^1.5.0",
     "serverless-offline": "^12.0.4",
     "serverless-prune-plugin": "^2.0.1",
+    "serverless-schema": "^1.16.0",
     "serverless-step-functions": "^3.11.1",
+    "sonar-scanner": "^3.1.0",
     "uuid": "^9.0.0",
-    "uuidv4": "^6.2.13",
-    "serverless-schema": "^1.16.0"
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.71",
