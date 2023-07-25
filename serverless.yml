@@ -9,6 +9,11 @@ provider:
   apiGateway: 
     binaryMediaTypes:
       -'*/*'
+  ecr:
+    scanOnPush: true
+    images:
+      sonarqube_fargate:
+        path: .
 
   # This section is used to configure permissions
   iamRoleStatements:
@@ -35,9 +40,42 @@ provider:
   # Setting a timeout of 15 minutes on all lambdas in this stack
   timeout: 900
 
+fargate:
+  clusterName: sonar-qube-fargate
+  containerInsights: true
+  memory: '0.5GB'
+  cpu: 256
+  architecture: X86_64
+  vpc:
+    assignPublicIp: true
+    securityGroupIds:
+      - sg-006f415a1d30d62d1
+    subnetIds:
+      - subnet-0cb2c1303b4628af8
+
+  tasks:
+    sonarqube-fargate:
+      name: sonarqube-fargate
+      image: sonarqube_fargate
+      memory: '0.5GB'
+      cpu: 256
+      vpc:
+        securityGroupIds:
+          - sg-006f415a1d30d62d1
+        subnetIds:
+          - subnet-0cb2c1303b4628af8
+        assignPublicIp: true
+      service:
+        desiredCount: 1
+        maximumPercent: 200
+      portMappings:
+        - containerPort: 9000
+          hostPort: 9000
+
 plugins:
   - serverless-esbuild
   - serverless-offline
+  - serverless-fargate
 
 package:
   individually: true
