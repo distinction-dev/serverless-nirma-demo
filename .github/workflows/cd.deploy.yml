@@ -3,8 +3,8 @@ name: CD:- Cloudformation
 on:
   workflow_call:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
 
 jobs:
   Deploy:
