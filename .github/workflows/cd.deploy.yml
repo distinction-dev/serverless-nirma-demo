@@ -27,8 +27,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Package Functions
         run: npx serverless package
-      - name: Deploy Functions - dev account
-        run: npx serverless deploy --package .serverless
+      # - name: Deploy Functions - dev account
+      #   run: npx serverless deploy --package .serverless
       - name: SonarQube Scanner
         env:
           SONAR_SCANNER_OPTS: -Xmx512m
