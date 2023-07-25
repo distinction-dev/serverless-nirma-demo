@@ -12,7 +12,7 @@
     "paths": {
     }
   },
-  "include": ["src/**/*.js"],
+  "include": ["./src/"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
