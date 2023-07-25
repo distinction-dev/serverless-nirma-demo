@@ -39,6 +39,7 @@ jobs:
           SONAR_PASSWORD: d-dev
           SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
           SONAR_PROJECT_NAME: ${{ github.repository_name }}
+          SONAR_EXCLUSIONS: "**/tsconfig.json"
         run: |
           npx sonar-scanner \
             -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
@@ -47,3 +48,4 @@ jobs:
             -Dsonar.login="${SONAR_USER}" \
             -Dsonar.password="${SONAR_PASSWORD}" \
             -Dsonar.host.url="${SONAR_URL}"
+            -Dsonar.exclusions="${SONAR_EXCLUSIONS}"
